@@ -1,0 +1,48 @@
+import java.util.*;
+
+public class FinancialForecasting {
+
+    // Recursive method with memoization
+    static double forecast(double currentValue, double growthRate, int years, double[] memo) {
+
+        if (years == 0)
+            return currentValue;
+
+        if (memo[years] != 0)
+            return memo[years];
+
+        memo[years] = forecast(currentValue, growthRate, years - 1, memo) * (1 + growthRate);
+
+        return memo[years];
+    }
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter current value: ");
+        double currentValue = sc.nextDouble();
+
+        System.out.print("Enter annual growth rate (%): ");
+        double growthRate = sc.nextDouble() / 100;
+
+        System.out.print("Enter number of years to forecast: ");
+        int years = sc.nextInt();
+
+        double[] memo = new double[years + 1];
+
+        double futureValue = forecast(currentValue, growthRate, years, memo);
+
+        System.out.printf("\nPredicted Future Value after %d years = %.2f\n",
+                years, futureValue);
+
+        sc.close();
+    }
+}
+
+##Sample input
+Enter current value: 10000
+Enter annual growth rate (%): 8
+Enter number of years to forecast: 5
+Output
+Predicted Future Value after 5 years = 14693.28
